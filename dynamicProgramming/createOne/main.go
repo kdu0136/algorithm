@@ -2,23 +2,24 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 func main() {
-	var n int
+	var n int = int(math.Pow(10, 6))
 
-	fmt.Print("정수 n 입력(1 < n <= 106):")
-	if _, err := fmt.Scanf("%d", &n); err != nil {
-		fmt.Println(err)
-		return
-	}
+	//fmt.Print("정수 n 입력(1 <= n <= 10^6):")
+	//if _, err := fmt.Scanf("%d", &n); err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
 
-	if n < 1 || n > 106 {
+	if n < 1 || n > int(math.Pow10(6)) {
 		fmt.Println("범위 오류")
 		return
 	}
 
-	fmt.Println("연산 수:", createOne(n))
+	fmt.Print(createOne(n))
 }
 
 // createOne - n 을 1 로 만드는 연산 task function
@@ -37,17 +38,18 @@ func createOneTask(n int) func() (int, int) {
 	taskCnt := 0 // 연산 수
 	return func() (int, int) {
 		switch true {
+		case  n == 1: // 1이면 아무것도 안함
 		case n%3 == 0: // 3으로 나누어 떨어지면 3으로 나눈다
 			fmt.Printf("%d / 3 = %d\n", n, n/3)
 			n /= 3
-		case isPow(106, n-1, 3): // n - 1이 3의 x 승이면 1을 뺀다
+		case isPow(int(math.Pow10(6)), n-1, 3): // n - 1이 3의 x 승이면 1을 뺀다
 			fmt.Printf("%d - 1 = %d\n", n, n-1)
 			n -= 1
 		case n%2 == 0: // 2로 나누어 떨어지면 2로 나눈다
-			fmt.Printf("%d / 2 = %d\n", n, n/1)
+			fmt.Printf("%d / 2 = %d\n", n, n/2)
 			n /= 2
 		default: // 1을 뺀다
-			fmt.Printf("%d -1 = %d\n", n, n-1)
+			fmt.Printf("%d - 1 = %d\n", n, n-1)
 			n -= 1
 		}
 		taskCnt++ // 연산 수 증가
