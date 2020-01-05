@@ -6,78 +6,43 @@ import (
 )
 
 func main() {
-	var n int = int(math.Pow(10, 6))
+	var n int
 
-	//fmt.Print("정수 n 입력(1 <= n <= 10^6):")
-	//if _, err := fmt.Scanf("%d", &n); err != nil {
-	//	fmt.Println(err)
-	//	return
-	//}
+	fmt.Print("정수 n 입력(1 <= n <= 10^6):")
+	if _, err := fmt.Scanf("%d", &n); err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	if n < 1 || n > int(math.Pow10(6)) {
 		fmt.Println("범위 오류")
 		return
 	}
 
-	fmt.Print(createOne(n))
+	fmt.Print(createOneDP(n))
 }
 
-// createOne - n 을 1 로 만드는 연산 task function
-func createOne(n int) int {
-	task := createOneTask(n) //  n 을 1 로 만드는 연산 task
-	for {
-		taskCnt, resultN := task()
-		if resultN == 1 { // 연산 값이 1이면 연산 수 리턴
-			return taskCnt
-		}
+// min - x, y 중 작은 수 찾는 함수 (x 가 0일경우 무조건 y)
+func min(x int, y int) int {
+	if x == 0 {
+		return y
 	}
+	return int(math.Min(float64(x), float64(y)))
 }
 
-// createOneTask - n 을 1 로 만드는 연산 task function
-func createOneTask(n int) func() (int, int) {
-	taskCnt := 0 // 연산 수
-	return func() (int, int) {
-		switch true {
-		case  n == 1: // 1이면 아무것도 안함
-		case n%3 == 0: // 3으로 나누어 떨어지면 3으로 나눈다
-			fmt.Printf("%d / 3 = %d\n", n, n/3)
-			n /= 3
-		case isPow(int(math.Pow10(6)), n-1, 3): // n - 1이 3의 x 승이면 1을 뺀다
-			fmt.Printf("%d - 1 = %d\n", n, n-1)
-			n -= 1
-		case n%2 == 0: // 2로 나누어 떨어지면 2로 나눈다
-			fmt.Printf("%d / 2 = %d\n", n, n/2)
-			n /= 2
-		default: // 1을 뺀다
-			fmt.Printf("%d - 1 = %d\n", n, n-1)
-			n -= 1
+// createOneDP - 1로 만들수 있는 방법 수 찾기 (Bottom-up)
+func createOneDP(n int)  int {
+	var DP = make([]int, n+1) // 입력 받은 n+1 만큼 array 할당
+	for i := 1; i <= n; i++ {
+		if i + 1 <= n { // i+1 array 값 계산
+			DP[i+1] = min(DP[i+1], DP[i]+1)
 		}
-		taskCnt++ // 연산 수 증가
-		return taskCnt, n
-	}
-}
-
-// makePowNum - expected 값이 powNum 의 x 승 값인지 확인하는 function
-func makePowNum(expected int, pow int) func() (int, bool) {
-	num := 1
-	return func() (int, bool) {
-		num *= pow
-		if num == expected {
-			return num, true
+		if i * 2 <= n { // i*2 array 값 계산
+			DP[i*2] = min(DP[i*2], DP[i]+1)
 		}
-		return num, false
-	}
-}
-
-// isPow - expected 값이 powNum 의 x 승 값인지 확인하는 function (maxNum 넘으면 무조건 false)
-func isPow(maxNum int, expected int, powNum int) bool {
-	pow := makePowNum(expected, powNum)
-	for {
-		num, ok := pow()
-		if ok {
-			return true
-		} else if num > maxNum {
-			return false
+		if i * 3 <= n { // i*3 array 값 계산
+			DP[i*3] = min(DP[i*3], DP[i]+1)
 		}
 	}
+	return DP[n]
 }
