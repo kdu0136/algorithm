@@ -33,8 +33,8 @@ func min(x int, y int) int {
 }
 
 // createOneDP - 1로 만들수 있는 방법 수 찾기 (Bottom-up)
-func createOneDP(n int)  int {
-	var DP = make([]int, n+1) // 입력 받은 n+1 만큼 array 할당
+func createOneDP(n int) int {
+	DP := make([]int, n+1) // 입력 받은 n+1 만큼 array 할당
 
 	for i := 1; i <= n; i++ {
 		var minusOne, divideTwo, divideThree int
