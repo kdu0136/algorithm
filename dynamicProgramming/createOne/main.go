@@ -8,18 +8,17 @@ import (
 func main() {
 	var n int
 
-	fmt.Print("정수 n 입력(1 <= n <= 10^6):")
 	if _, err := fmt.Scanf("%d", &n); err != nil {
 		fmt.Println(err)
 		return
 	}
 
+	// 범위 예외
 	if n < 1 || n > int(math.Pow10(6)) {
-		fmt.Println("범위 오류")
 		return
 	}
 
-	fmt.Print("result:", createOneDP(n))
+	fmt.Print(createOneDP(n))
 }
 
 // min - x, y 중 작은 수 찾는 함수 (둘 중 0인 값이 있으면 다른 값 return)

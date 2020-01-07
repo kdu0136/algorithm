@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+var DP []int
 func main() {
 	var t int
 
@@ -23,33 +24,37 @@ func main() {
 		}
 
 		// 범위 예외
-		if inputN[i] < 1 || inputN[i] > 10 {
+		if inputN[i] < 0 || inputN[i] > 41 {
 			return
 		}
 
 		max = int(math.Max(float64(max), float64(inputN[i])))
 	}
 
-	DP := plusOneTwoThreeDP(max)
+	//fibonacci DP init
+	DP = make([]int, max + 1)
+	fibonacci(max)
+	DP = append([]int{1}, DP...)
+
 	for _, n := range inputN {
-		fmt.Println(DP[n-1])
+		fmt.Println(DP[n], DP[n+1])
 	}
 }
 
-// plusOneTwoThreeDP - 1,2,3 합으로 나타내는 방법 수 찾기
-func plusOneTwoThreeDP(max int) []int {
-	DP := make([]int, max)
-	for i := 0; i < max; i++ {
-		switch i {
-		case 0:
-			DP[i] = 1
-		case 1:
-			DP[i] = 2
-		case 2:
-			DP[i] = 4
-		default:
-			DP[i] = DP[i - 1] + DP[i - 2] + DP[i - 3]
+// fibonacci function
+func fibonacci(n int) int {
+	if n == 0 {
+		return n
+	}
+
+	if DP[n] == 0 {
+		if n == 1 {
+			DP[n] = n
+		} else {
+			DP[n] = fibonacci(n - 1) + fibonacci(n - 2)
 		}
 	}
-	return DP
+
+	return DP[n]
 }
+
