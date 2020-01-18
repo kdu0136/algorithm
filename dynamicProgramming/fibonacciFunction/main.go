@@ -6,6 +6,7 @@ import (
 )
 
 var DP []int
+
 func main() {
 	var t int
 
@@ -32,7 +33,7 @@ func main() {
 	}
 
 	//fibonacci DP init
-	DP = make([]int, max + 1)
+	DP = make([]int, max+1)
 	fibonacci(max)
 	DP = append([]int{1}, DP...)
 
@@ -51,10 +52,9 @@ func fibonacci(n int) int {
 		if n == 1 {
 			DP[n] = n
 		} else {
-			DP[n] = fibonacci(n - 1) + fibonacci(n - 2)
+			DP[n] = fibonacci(n-1) + fibonacci(n-2)
 		}
 	}
 
 	return DP[n]
 }
-

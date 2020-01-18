@@ -5,6 +5,7 @@ import (
 )
 
 var DP []int
+
 func main() {
 	var n int
 
@@ -16,7 +17,7 @@ func main() {
 	}
 
 	// tiling way sum DP init
-	DP = make([]int, n + 1)
+	DP = make([]int, n+1)
 
 	tilingSum(n)
 	fmt.Println(DP[n])
@@ -32,7 +33,7 @@ func tilingSum(n int) int {
 		if n <= 2 {
 			DP[n] = n
 		} else {
-			DP[n] = (tilingSum(n - 1) + tilingSum(n - 2)) % 10007
+			DP[n] = (tilingSum(n-1) + tilingSum(n-2)) % 10007
 		}
 	}
 

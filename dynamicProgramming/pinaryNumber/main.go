@@ -5,6 +5,7 @@ import (
 )
 
 var DP []int
+
 func main() {
 	var n int
 
@@ -32,10 +33,9 @@ func pinaryNumber(n int) int {
 		if n == 1 {
 			DP[n] = n
 		} else {
-			DP[n] = pinaryNumber(n - 1) + pinaryNumber(n - 2)
+			DP[n] = pinaryNumber(n-1) + pinaryNumber(n-2)
 		}
 	}
 
 	return DP[n]
 }
-

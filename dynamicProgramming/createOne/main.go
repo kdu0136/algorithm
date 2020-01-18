@@ -38,15 +38,15 @@ func createOneDP(n int) int {
 	for i := 1; i <= n; i++ {
 		var minusOne, divideTwo, divideThree int
 		var minusOneDP, divideTwoDP, divideThreeDP int
-		if i - 1  != 0 && i - 1 <= n { // i-1 array 값 계산
+		if i-1 != 0 && i-1 <= n { // i-1 array 값 계산
 			minusOne = i - 1
 			minusOneDP = DP[minusOne] + 1
 		}
-		if i % 2 == 0 && i / 2 <= n { // i/2 array 값 계산
+		if i%2 == 0 && i/2 <= n { // i/2 array 값 계산
 			divideTwo = i / 2
 			divideTwoDP = DP[divideTwo] + 1
 		}
-		if i % 3 == 0 &&  i / 3 <= n { // i/3 array 값 계산
+		if i%3 == 0 && i/3 <= n { // i/3 array 값 계산
 			divideThree = i / 3
 			divideThreeDP = DP[divideThree] + 1
 		}

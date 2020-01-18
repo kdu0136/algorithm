@@ -63,4 +63,3 @@ func maxStairSum(n int) int {
 
 	return maxDP[n]
 }
-

@@ -6,6 +6,7 @@ import (
 )
 
 var housePrice, minSumDP [][3]int
+
 func main() {
 	var n int
 
@@ -24,7 +25,9 @@ func main() {
 		if _, err := fmt.Scanf("%d %d %d", &housePrice[i][0], &housePrice[i][1], &housePrice[i][2]); err != nil {
 			fmt.Println(err)
 			return
-		} else if n < 1 || n > 1000 { // 범위 예외
+		} else if housePrice[i][0] < 1 || housePrice[i][0] > 1000 ||
+			housePrice[i][1] < 1 || housePrice[i][1] > 1000 ||
+			housePrice[i][2] < 1 || housePrice[i][2] > 1000 { // 범위 예외
 			return
 		}
 	}
@@ -47,11 +50,10 @@ func minSum(n int) {
 		return
 	}
 	if minSumDP[n-1][0] == 0 || minSumDP[n-1][1] == 0 || minSumDP[n-1][2] == 0 {
-		minSum(n-1)
+		minSum(n - 1)
 	}
 	minSumDP[n][0] = housePrice[n][0] + int(math.Min(float64(minSumDP[n-1][1]), float64(minSumDP[n-1][2])))
 	minSumDP[n][1] = housePrice[n][1] + int(math.Min(float64(minSumDP[n-1][0]), float64(minSumDP[n-1][2])))
 	minSumDP[n][2] = housePrice[n][2] + int(math.Min(float64(minSumDP[n-1][0]), float64(minSumDP[n-1][1])))
 	return
 }
-

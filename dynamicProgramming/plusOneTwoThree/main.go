@@ -48,7 +48,7 @@ func plusOneTwoThreeDP(max int) []int {
 		case 2:
 			DP[i] = 4
 		default:
-			DP[i] = DP[i - 1] + DP[i - 2] + DP[i - 3]
+			DP[i] = DP[i-1] + DP[i-2] + DP[i-3]
 		}
 	}
 	return DP
