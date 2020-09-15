@@ -20,5 +20,6 @@ func main() {
 	for i := 1; i < t + 1; i++ {
 		DP = []int{DP[1], DP[1] + DP[0]}
 	}
+
 	fmt.Printf("%d %d\n", DP[0], DP[1])
 }
