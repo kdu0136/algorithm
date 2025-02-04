@@ -1,5 +1,10 @@
+import kotlin.math.ceil
+import kotlin.math.max
+
 class Input(
-    val targets: Array<IntArray>,
+    val diffs: IntArray,
+    val times: IntArray,
+    val limit: Long,
     val output: Int,
 )
 
@@ -8,369 +13,98 @@ fun main() {
 
     val inputs = listOf(
         Input(
-            arrayOf(
-                intArrayOf(4, 5),
-                intArrayOf(4, 8),
-                intArrayOf(10, 14),
-                intArrayOf(11, 13),
-                intArrayOf(5, 12),
-                intArrayOf(3, 7),
-                intArrayOf(1, 4),
-            ),
+            intArrayOf(1, 5, 3),
+            intArrayOf(2, 4, 7),
+            30,
             3,
         ),
         Input(
-            arrayOf(
-                intArrayOf(3, 7),
-                intArrayOf(11, 13),
-            ),
+            intArrayOf(1, 4, 4, 2),
+            intArrayOf(6, 3, 8, 2),
+            59,
             2,
         ),
         Input(
-            arrayOf(
-                intArrayOf(11, 13),
-                intArrayOf(4, 5),
-            ),
-            2,
+            intArrayOf(1, 328, 467, 209, 54),
+            intArrayOf(2, 7, 1, 4, 3),
+            1723,
+            294,
         ),
-        Input(
-            arrayOf(
-                intArrayOf(11, 13),
-                intArrayOf(4, 5),
-                intArrayOf(1, 3),
-                intArrayOf(3, 4),
-            ),
-            4,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(11, 13),
-                intArrayOf(4, 5),
-                intArrayOf(1, 3),
-                intArrayOf(3, 4),
-                intArrayOf(4, 10),
-            ),
-            4,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(4, 5),
-                intArrayOf(4, 8),
-                intArrayOf(10, 14),
-                intArrayOf(11, 13),
-                intArrayOf(5, 12),
-                intArrayOf(3, 7),
-                intArrayOf(1, 4),
-                intArrayOf(15, 16),
-            ),
-            4,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(4, 5),
-                intArrayOf(4, 8),
-                intArrayOf(10, 14),
-                intArrayOf(11, 13),
-                intArrayOf(5, 12),
-                intArrayOf(3, 7),
-                intArrayOf(1, 4),
-                intArrayOf(15, 16),
-                intArrayOf(16, 18),
-            ),
-            5,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(1, 2),
-                intArrayOf(2, 3),
-            ),
-            2,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(1, 2),
-                intArrayOf(1, 3),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(1, 2),
-                intArrayOf(1, 3),
-                intArrayOf(2, 3),
-            ),
-            2,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(1, 2),
-                intArrayOf(1, 3),
-                intArrayOf(2, 3),
-                intArrayOf(1, 10),
-            ),
-            2,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(1, 2),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(4, 5),
-                intArrayOf(4, 8),
-                intArrayOf(10, 14),
-                intArrayOf(11, 13),
-                intArrayOf(5, 12),
-                intArrayOf(3, 7),
-                intArrayOf(1, 4),
-                intArrayOf(14, 15),
-            ),
-            4,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(4, 5),
-                intArrayOf(4, 8),
-                intArrayOf(10, 14),
-                intArrayOf(11, 13),
-                intArrayOf(5, 12),
-                intArrayOf(3, 7),
-                intArrayOf(1, 4),
-                intArrayOf(12, 13),
-            ),
-            4,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(4, 5),
-                intArrayOf(4, 8),
-                intArrayOf(10, 14),
-                intArrayOf(11, 13),
-                intArrayOf(5, 12),
-                intArrayOf(3, 7),
-                intArrayOf(1, 4),
-                intArrayOf(12, 20),
-            ),
-            4,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(4, 5),
-                intArrayOf(4, 8),
-                intArrayOf(10, 14),
-                intArrayOf(11, 13),
-                intArrayOf(5, 12),
-                intArrayOf(3, 7),
-                intArrayOf(1, 4),
-                intArrayOf(11, 13),
-            ),
-            3,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(4, 7),
-                intArrayOf(8, 9),
-            ),
-            3,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(10, 11),
-                intArrayOf(10, 15),
-                intArrayOf(10, 19),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(10, 11),
-                intArrayOf(10, 15),
-                intArrayOf(10, 19),
-                intArrayOf(17, 19),
-            ),
-            2,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(4, 5),
-                intArrayOf(4, 8),
-                intArrayOf(10, 14),
-                intArrayOf(11, 13),
-                intArrayOf(5, 12),
-                intArrayOf(3, 7),
-                intArrayOf(1, 4),
-                intArrayOf(4, 100),
-            ),
-            3,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(0, 1),
-                intArrayOf(1, 100),
-            ),
-            2,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(0, 1),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(15, 18),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(15, 20),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(19, 20),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(20, 21),
-            ),
-            2,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(10, 20),
-                intArrayOf(9, 21),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(1, 4),
-                intArrayOf(2, 5),
-                intArrayOf(2, 3),
-            ),
-            1,
-        ),
-        Input(
-            arrayOf(
-                intArrayOf(1, 4),
-                intArrayOf(2, 5),
-                intArrayOf(2, 3),
-                intArrayOf(3, 4),
-            ),
-            2,
-        ),
+//        Input(
+//            intArrayOf(1, 99999, 100000, 99995),
+//            intArrayOf(9999, 9001, 9999, 9001),
+//            3456789012,
+//            39354,
+//        ),
+//        Input(
+//            intArrayOf(1, 1, 3),
+//            intArrayOf(1, 1, 3),
+//            50,
+//            1,
+//        ),
     )
 
     inputs.forEach { input ->
-        val result = s.solution(input.targets)
-        println("output: ${result}, expected output: ${input.output} => ${result == input.output}")
+        val result = s.solution(input.diffs, input.times, input.limit)
+        println("output: ${result}, expected output: ${input.output} => ${result == input.output}\n")
     }
-    val input = Input(
-        arrayOf(
-            intArrayOf(8, 10),
-            intArrayOf(1, 3),
-            intArrayOf(9, 11),
-            intArrayOf(1, 10),
-            intArrayOf(1, 9),
-        ),
-        2,
-    )
-    val result = s.solution(input.targets)
-    println("output: ${result}, expected output: ${input.output} => ${result == input.output}")
 }
 
 class Solution {
-    fun solution(targets: Array<IntArray>): Int {
-        val newTargets = targets
-            .sortedWith(compareBy({ it.first() }, { it.last() - it.first() }))//, { it.first() }))
-            .toMutableList()
-
-        newTargets.forEach {
-            println("${it.joinToString(",")} size: ${it.last() - it.first()}")
-        }
-
-        var index = 0
-        var point = 1
-        while (index < newTargets.size) {
-            if (point <= newTargets[index].first()) {
-                index++
+    fun solution(diffs: IntArray, times: IntArray, limit: Long): Int {
+        val timeSums = times.mapIndexed { index, time ->
+            if (index == 0) time
+            else {
+                times[index - 1] + time
             }
-            point++
         }
+//        println("timeSums: ${timeSums.joinToString(", ")}")
+//        println("diffs: ${diffs.joinToString(", ")}")
+//        println("times: ${times.joinToString(", ")}")
+//        println("limit: $limit\n")
 
-
-
-        var count = 0
-        while (newTargets.isNotEmpty()) {
-//            newTargets.forEach {
-//                println("${it.joinToString(",")} size: ${it.last() - it.first()}")
-//            }
-            val aimTarget = newTargets.firstOrNull()
-//            println("aimTarget: ${aimTarget?.joinToString(",")}")
-            if (aimTarget != null) {
-                val points = aimTarget.first() until aimTarget.last()
-                var shotTargets = listOf<IntArray>()
-                var shotPoint = 0
-                for (point in points) {
-                    val tempTargets = newTargets.filter {
-                        point in it.first() until it.last()
-                    }
-//                    println("tmpShotPoint: $point, tempTargets: ${tempTargets.map { it.toList() }.joinToString(",")}")
-
-                    if (tempTargets.size >= shotTargets.size) {
-                        shotTargets = tempTargets
-                        shotPoint = point
-                    }
-
-                    if (shotTargets.size == newTargets.size) {
-                        break
-                    }
+        var minLevel = diffs.minOf { it }
+        var maxLevel = diffs.maxOf { it }
+        var level: Int
+        var enableLevel = 1
+        do {
+            level = minLevel + (maxLevel - minLevel) / 2
+            println("maxLevel: $maxLevel, minLevel: $minLevel")
+            val enable = enableLevel(diffs, times, timeSums, limit, level)
+            println("level: $level is enable: $enable\n")
+            if (minLevel == level) {
+                enableLevel = if (enable) {
+                    level
+                } else {
+                    maxLevel
                 }
-//                println("shotPoint: $shotPoint, shotTargets: ${shotTargets.map { it.toList() }.joinToString(",")}")
-                newTargets.removeAll(shotTargets)
-                count++
+                break
             }
+
+            if (enable) {
+                maxLevel = level
+            } else {
+                minLevel = level + 1
+            }
+        } while (true)
+
+        return enableLevel
+    }
+
+    private fun enableLevel(diffs: IntArray, times: IntArray, timeSums: List<Int>, limit: Long, level: Int): Boolean {
+//        println("level: $level")
+        var sum: Long = timeSums.first().toLong()
+//        println("sum: $sum")
+        for (i in 1 until timeSums.size) {
+            sum += if (diffs[i] <= level) {
+                times[i]
+            } else {
+                (diffs[i] - level) * timeSums[i] + times[i]
+            }
+//            println("sum: $sum")
         }
 
-        return count
+        return sum <= limit
     }
 }
 
